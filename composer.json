@@ -23,7 +23,7 @@
 	},
 	"autoload": {
 		"psr-0": {
-			"Tiloweb\Base64Bundle": ""
+			"Tiloweb\\Base64Bundle\\": ""
 		}
 	},
 	"minimum-stability": "dev",
