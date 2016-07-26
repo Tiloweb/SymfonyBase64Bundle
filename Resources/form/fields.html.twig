@@ -1,0 +1,36 @@
+{% block base64_widget %}
+    {% spaceless %}
+        <input type="file" id="{{ id }}_file" {% if required and value is empty %}required{% endif %} />
+        <input type="hidden" {{ block('widget_attributes') }} value="{{ value }}" />
+        <img src="{{ value }}" id="{{ id }}_img" {% if value is empty %}style="display: none"{% endif %} />
+        {% if not required %}
+            <a href="#" id="{{ id }}_delete" {% if value is empty %}style="display: none"{% endif %}>{{ deleteLabel }}</a>
+        {% endif %}
+        <script>
+            document.getElementById('{{ id }}_file').addEventListener('change', function() {
+                if(this.files && this.files[0]) {
+                    var file = new FileReader();
+                    file.onload = function(e) {
+                        document.getElementById("{{ id }}").value   = e.target.result;
+                        document.getElementById("{{ id }}_img").src = e.target.result;
+                        document.getElementById("{{ id }}_img").style.display = 'inline-block';
+                        {% if not required %}
+                            document.getElementById("{{ id }}_delete").style.display = 'inline-block';
+                        {% endif %}
+                    };
+                    file.readAsDataURL( this.files[0] );
+                }
+            }, false);
+            {% if not required %}
+                document.getElementById('{{ id }}_delete').addEventListener('click', function() {
+                    document.getElementById("{{ id }}").value   = "";
+                    document.getElementById("{{ id }}_img").src = "";
+                    document.getElementById("{{ id }}_img").style.display = 'none';
+                    document.getElementById("{{ id }}_file").value   = "";
+                    document.getElementById("{{ id }}_delete").style.display = 'none';
+                    return false;
+                }, false);
+            {% endif %}
+        </script>
+    {% endspaceless %}
+{% endblock %}
