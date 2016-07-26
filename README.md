@@ -1,7 +1,7 @@
 Usage
 =====
 
-This Bundle made easy to use the Doctrine\Paginator method to optimally paginate your requests. The pagination always use the `GET $page` to control on wich page you are, so you don't have to worry about the route.
+This Bundle allow you to manage entities files send through your forms in base64.
 
 Installation
 ============
@@ -79,7 +79,8 @@ class ImageType extends AbstractType
     {
         $builder
             ->add("avatar", Base64Type::class, array(
-                'label' => 'Avatar'
+                'label' => 'Avatar',
+                'required' => true
             ))
         ;
     }
