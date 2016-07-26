@@ -1,3 +1,0 @@
-twig:
-    form_themes:
-        - 'Base64Bundle:form:fields.html.twig'
