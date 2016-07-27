@@ -2,10 +2,12 @@
     {% spaceless %}
         <input type="file" id="{{ id }}_file" {% if required and value is empty %}required{% endif %} />
         <input type="hidden" {{ block('widget_attributes') }} value="{{ value }}" />
-        <img src="{{ value }}" id="{{ id }}_img" {% if value is empty %}style="display: none"{% endif %} />
-        {% if not required %}
-            <a href="#" id="{{ id }}_delete" {% if value is empty %}style="display: none"{% endif %}>{{ deleteLabel }}</a>
-        {% endif %}
+        <figure>
+        	<img src="{{ value }}" id="{{ id }}_img" {% if value is empty %}style="display: none"{% endif %} />
+	        {% if not required %}
+	            <a href="#" id="{{ id }}_delete" {% if value is empty %}style="display: none"{% endif %}>{{ deleteLabel }}</a>
+	        {% endif %}
+        </figure>
         <script>
             document.getElementById('{{ id }}_file').addEventListener('change', function() {
                 if(this.files && this.files[0]) {
