@@ -80,8 +80,11 @@ class ImageType extends AbstractType
         $builder
             ->add("avatar", Base64Type::class, array(
                 'label' => 'Avatar',
-                'required' => true
-            ))
+                'required' => false, // Can be true
+                'deleteLabel' => 'Delete', // Optional if "required" is true, default : "Delete"
+                'width' => 600, // Optionnal : If set, the image will be resized
+                'height' => 400 // Optionnal : If not setted, the ratio will be respected
+            ))
         ;
     }
 
