@@ -13,12 +13,66 @@
                 if(this.files && this.files[0]) {
                     var file = new FileReader();
                     file.onload = function(e) {
-                        document.getElementById("{{ id }}").value   = e.target.result;
-                        document.getElementById("{{ id }}_img").src = e.target.result;
-                        document.getElementById("{{ id }}_figure").style.display = 'inline-block';
-                        {% if not required %}
-                            document.getElementById("{{ id }}_delete").style.display = 'inline-block';
-                        {% endif %}
+                        var img = new Image;
+
+
+                        img.onload = function() {
+                            var width = {% if width %}parseInt({{ width }}){% else %}0{% endif %};
+                            var height = {% if height %}parseInt({{ height }}){% else %}0{% endif %};
+
+                            console.log(width);
+                            console.log(height);
+                            console.log(img.width);
+                            console.log(img.height);
+
+                            var newWidth, newHeigth;
+
+                            if(width > 0 || height > 0) {
+                                // Resize
+                                var ratio = img.width / img.height;
+
+                                if(height === 0) {
+                                    // newHeight Auto
+                                    newWidth = width;
+                                    newHeigth = newWidth / ratio;
+                                } else if(width === 0) {
+                                    // newWidth Auto
+                                    newHeigth = height;
+                                    newWidth = newHeigth * ratio;
+                                } else {
+                                    // Brutal Resize
+                                    // TODO : Crop option
+                                    newWidth = width;
+                                    newHeigth = height;
+                                }
+                            } else {
+                                newWidth = img.width;
+                                newHeigth = img.height;
+                            }
+
+                            var canvas = document.createElement('canvas');
+                            var context = canvas.getContext('2d');
+
+                            canvas.width = newWidth;
+                            canvas.height = newHeigth;
+
+                            context.drawImage(img, 0, 0, newWidth, newHeigth);
+
+                            var newImage = new Image;
+                            newImage.src = canvas.toDataURL();
+
+                            console.log(newImage.width);
+                            console.log(newImage.height);
+
+                            document.getElementById("{{ id }}").value   = newImage.src;
+                            document.getElementById("{{ id }}_img").src = newImage.src;
+                            document.getElementById("{{ id }}_figure").style.display = 'block';
+                            {% if not required %}
+                                document.getElementById("{{ id }}_delete").style.display = 'block';
+                            {% endif %}
+                        };
+
+                        img.src = e.target.result;
                     };
                     file.readAsDataURL( this.files[0] );
                 }
