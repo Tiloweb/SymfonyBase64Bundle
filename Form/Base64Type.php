@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thibaulthenry
- * Date: 26/07/2016
- * Time: 17:08
- */
 
 namespace Tiloweb\Base64Bundle\Form;
 
@@ -20,7 +14,9 @@ class Base64Type extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => null,
-            'deleteLabel' => 'Delete'
+            'deleteLabel' => 'Delete',
+            'width' => null,
+            'height' => null
         ));
     }
 
@@ -33,5 +29,7 @@ class Base64Type extends AbstractType
         parent::buildView($view, $form, $options);
 
         $view->vars['deleteLabel'] = $options['deleteLabel'];
+        $view->vars['width'] = $options['width'];
+        $view->vars['height'] = $options['height'];
     }
 }
