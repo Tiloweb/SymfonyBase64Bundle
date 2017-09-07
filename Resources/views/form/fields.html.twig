@@ -20,49 +20,48 @@
                             var width = {% if width %}parseInt({{ width }}){% else %}0{% endif %};
                             var height = {% if height %}parseInt({{ height }}){% else %}0{% endif %};
 
-                            console.log(width);
-                            console.log(height);
-                            console.log(img.width);
-                            console.log(img.height);
-
-                            var newWidth, newHeigth;
+                            var ratio = img.width / img.height;
 
                             if(width > 0 || height > 0) {
-                                // Resize
-                                var ratio = img.width / img.height;
-
                                 if(height === 0) {
                                     // newHeight Auto
-                                    newWidth = width;
-                                    newHeigth = newWidth / ratio;
+                                    height = width / ratio;
                                 } else if(width === 0) {
                                     // newWidth Auto
-                                    newHeigth = height;
-                                    newWidth = newHeigth * ratio;
-                                } else {
-                                    // Brutal Resize
-                                    // TODO : Crop option
-                                    newWidth = width;
-                                    newHeigth = height;
+                                    width = height * ratio;
                                 }
                             } else {
-                                newWidth = img.width;
-                                newHeigth = img.height;
+                                width = img.width;
+                                height = img.height;
                             }
 
                             var canvas = document.createElement('canvas');
                             var context = canvas.getContext('2d');
 
-                            canvas.width = newWidth;
-                            canvas.height = newHeigth;
+                            canvas.width = width;
+                            canvas.height = height;
 
-                            context.drawImage(img, 0, 0, newWidth, newHeigth);
+                            var x = 0;
+                            var y = 0;
+
+                            var swidth, sheight;
+
+                            swidth = width;
+                            sheight = swidth / ratio;
+
+                            if(sheight >= height) {
+                                y = -(sheight - height) / 2;
+                            } else {
+                                sheight = height;
+                                swidth = height * ratio;
+
+                                x = -(swidth - width) / 2;
+                            }
+
+                            context.drawImage(img, x, y, swidth, sheight);
 
                             var newImage = new Image;
                             newImage.src = canvas.toDataURL();
-
-                            console.log(newImage.width);
-                            console.log(newImage.height);
 
                             document.getElementById("{{ id }}").value   = newImage.src;
                             document.getElementById("{{ id }}_img").src = newImage.src;
