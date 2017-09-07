@@ -83,7 +83,7 @@ class ImageType extends AbstractType
                 'required' => false, // Can be true
                 'deleteLabel' => 'Delete', // Optional if "required" is true, default : "Delete"
                 'width' => 600, // Optionnal : If set, the image will be resized
-                'height' => 400 // Optionnal : If not setted, the ratio will be respected
+                'height' => 400 // Optionnal : If not setted, the ratio will be respected, if setted with width, the image will be cropped.
             ))
         ;
     }
