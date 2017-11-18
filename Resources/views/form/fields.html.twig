@@ -60,8 +60,10 @@
 
                             context.drawImage(img, x, y, swidth, sheight);
 
+                            var type = img.src.split(';')[0].replace('data:', '');
+
                             var newImage = new Image;
-                            newImage.src = canvas.toDataURL();
+                            newImage.src = canvas.toDataURL(type);
 
                             document.getElementById("{{ id }}").value   = newImage.src;
                             document.getElementById("{{ id }}_img").src = newImage.src;
