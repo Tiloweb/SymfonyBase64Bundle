@@ -20,7 +20,7 @@ This command requires you to have Composer installed globally, as explained
 in the [installation chapter](https://getcomposer.org/doc/00-intro.md)
 of the Composer documentation.
 
-Step 2: Enable the Bundle
+Step 2: Enable the Bundle (only for Symfony 2 or 3)
 -------------------------
 
 Then, enable the bundle by adding it to the list of registered bundles
@@ -51,14 +51,14 @@ class AppKernel extends Kernel
 Step 3: Add the default twig theme
 ----------------------------------
 
-Add the default twig theme for the form in you `app/config/config.yml`.
+Add the default twig theme for the form in you `app/config/config.yml` for Symfony 2 and 3 `app/config/packages/twig.yml` for Symfony 4.
 
 ```yml
 # app/config/config.yml
 
 twig:
     form_themes:
-        - 'TilowebBase64Bundle:form:fields.html.twig'
+        - '@TilowebBase64/form/fields.html.twig'
 ```
 
 Step 4 : Configure your form type
@@ -68,6 +68,7 @@ Step 4 : Configure your form type
 <?php
 // src/AppBundle/Form/ImageType.php
 
+use App\Entity;
 use Tiloweb\Base64Bundle\Form\Base64Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -91,13 +92,8 @@ class ImageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Avatar',
+            'data_class' => Avatar::class,
         ));
-    }
-
-    public function getName()
-    {
-        return 'avatar';
     }
 }
 ```
