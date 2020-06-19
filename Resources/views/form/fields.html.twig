@@ -1,5 +1,5 @@
 {% block base64_widget %}
-    {% spaceless %}
+    {% apply spaceless %}
         <input type="file" id="{{ id }}_file" {% if required and value is empty %}required{% endif %} />
         <input type="hidden" {{ block('widget_attributes') }} value="{{ value }}" />
         <figure id="{{ id }}_figure" {% if value is empty %}style="display: none"{% endif %}>
@@ -89,5 +89,5 @@
                 }, false);
             {% endif %}
         </script>
-    {% endspaceless %}
+    {% endapply %}
 {% endblock %}
